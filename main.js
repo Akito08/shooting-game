@@ -102,9 +102,18 @@ const init = () => {
 window.onload = async () => {
     init();
     
-    const bullet = new Bullet(-90 * Math.PI / 180);
+    const bulletList = [];
+    let bulletInterval = 0;
     while (true){
         await new Promise(r => setTimeout(r, 16));
-        bullet.update();
+        if (bulletInterval === 0) {
+            bulletInterval = 5;
+            bulletList.push(new Bullet(-90 * Math.PI / 180));
+        }
+
+        bulletInterval --;
+        for (let bullet of bulletList){
+            bullet.update();
+        }
     }
 };
