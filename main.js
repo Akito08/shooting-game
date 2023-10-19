@@ -51,8 +51,8 @@ const init = () => {
             if (originalX !== -1){
                 const dx = e.pageX - originalX;
                 const dy = e.pageY - originalY;
-                heroX = originalHeroX + dx;
-                heroY = originalHeroY + dy;
+                heroX = originalHeroX + dx * 1.5;
+                heroY = originalHeroY + dy * 1.5;
                 heroX = Math.min(width - heroSize / 2, Math.max(heroSize / 2, heroX));
                 heroY = Math.min(height - heroSize / 2, Math.max(heroSize / 2, heroY));
                 update();
