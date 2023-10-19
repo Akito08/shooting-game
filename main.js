@@ -8,10 +8,44 @@ const heroSize = width / 10;
 let heroX = width / 2;
 let heroY = height / 2;
 
+const bulletSize = width / 30;
+const bulletSpeed = width / 25;
+
+class Character {
+    constructor(x, y, size, angle, speed) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.angle = angle;
+        this.speed = speed;
+        const element = document.createElement("div");
+        container.appendChild(element);
+        element.style.position = "absolute";
+        element.style.width = `${size}px`;
+        element.style.height = `${size}px`;
+        this.element = element;
+    }
+
+    update() {
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+        this.element.style.left = `${this.x - this.size / 2}px`;
+        this.element.style.top = `${this.y - this.size / 2}px`;
+      }
+}
+
+class Bullet extends Character{
+    constructor(angle){
+        super(heroX, heroY, bulletSize, angle, bulletSpeed)
+        this.element.style.backgroundColor = "#ff0";
+        this.element.style.borderRadius = "50%";
+    }
+}
+
 const update = () => {
     heroElement.style.left = `${heroX - heroSize / 2}px`;
     heroElement.style.top = `${heroY - heroSize / 2}px`;
-};
+  };
 
 const init = () => {
     container = document.createElement("div");
@@ -43,8 +77,8 @@ const init = () => {
             e.preventDefault();
             originalX = e.pageX;
             originalY = e.pageY;
-            originalheroX = heroX;
-            originalheroY = heroY;
+            originalHeroX = heroX;
+            originalHeroY = heroY;
         };
         document.onpointermove = (e) => {
             e.preventDefault();
@@ -65,6 +99,12 @@ const init = () => {
     }
 };
 
-window.onload = () => {
+window.onload = async () => {
     init();
+    
+    const bullet = new Bullet(-90 * Math.PI / 180);
+    while (true){
+        await new Promise(r => setTimeout(r, 16));
+        bullet.update();
+    }
 };
