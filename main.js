@@ -109,6 +109,8 @@ window.onload = async () => {
         if (bulletInterval === 0) {
             bulletInterval = 5;
             bulletList.push(new Bullet(-90 * Math.PI / 180));
+            bulletList.push(new Bullet(-60 * Math.PI / 180));
+            bulletList.push(new Bullet(-120 * Math.PI / 180));
         }
 
         bulletInterval --;
