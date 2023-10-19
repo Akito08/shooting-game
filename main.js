@@ -6,7 +6,7 @@ let container = null;
 let heroElement = null;
 const heroSize = width / 10;
 let heroX = width / 2;
-let heroY = height / 2;
+let heroY = height / 2 + 150;
 
 const bulletSize = width / 30;
 const bulletSpeed = width / 25;
