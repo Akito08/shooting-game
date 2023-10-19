@@ -32,6 +32,23 @@ class Character {
         this.element.style.left = `${this.x - this.size / 2}px`;
         this.element.style.top = `${this.y - this.size / 2}px`;
       }
+
+    remove(){
+        this.element.remove();
+    }
+
+    isAvailable() {
+        if (
+          this.x < -this.size ||
+          this.x > width + this.size ||
+          this.y < -this.size ||
+          this.y > height + this.size
+        ) {
+          this.remove();
+          return false;
+        }
+        return true;
+      }
 }
 
 class Bullet extends Character{
@@ -102,7 +119,7 @@ const init = () => {
 window.onload = async () => {
     init();
     
-    const bulletList = [];
+    let bulletList = [];
     let bulletInterval = 0;
     while (true){
         await new Promise(r => setTimeout(r, 16));
@@ -117,5 +134,6 @@ window.onload = async () => {
         for (let bullet of bulletList){
             bullet.update();
         }
+        bulletList = bulletList.filter((v) => v.isAvailable());
     }
 };
