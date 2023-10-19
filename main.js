@@ -53,6 +53,8 @@ const init = () => {
                 const dy = e.pageY - originalY;
                 heroX = originalHeroX + dx;
                 heroY = originalHeroY + dy;
+                heroX = Math.min(width - heroSize / 2, Math.max(heroSize / 2, heroX));
+                heroY = Math.min(height - heroSize / 2, Math.max(heroSize / 2, heroY));
                 update();
             }
         };
