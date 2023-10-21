@@ -72,11 +72,19 @@ class Bullet extends Character{
 class Ghost extends Character{
     constructor(x, y, angle, speed){
         super(x, y, ghostSize, angle, speed)
+        this.power = Math.random() * 7;
         this.element.style.display = "flex";
         this.element.style.alignItems = "center";
         this.element.style.justifyContent = "center";
         this.element.style.fontSize = `${ghostSize}px`;
         this.element.textContent = "👻";
+    }
+
+    hit(){
+        this.power--;
+        if (this.power <= 0){
+            this.remove();
+        }
     }
 }
 
@@ -196,7 +204,7 @@ window.onload = async () => {
                 const dy = ghost.y - bullet.y;
                 const diff = (bulletSize + ghostSize) / 2 * 0.8;
                 if (dx ** 2 + dy ** 2 < diff ** 2){
-                    ghost.remove();
+                    ghost.hit();
                     bullet.remove();
                 }
             }
