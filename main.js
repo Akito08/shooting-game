@@ -1,14 +1,14 @@
-const width = 320;
-const height = 480;
+const width = 350;
+const height = 560;
 
 let container = null;
 
 let heroElement = null;
-const heroSize = width / 10;
+const heroSize = width / 12;
 let heroX = width / 2;
 let heroY = height / 2 + 150;
 
-const ghostSize = width / 10;
+const ghostSize = width / 12;
 const ghostSpeed = width / 70;
 
 const bulletSize = width / 30;
