@@ -8,6 +8,9 @@ const heroSize = width / 10;
 let heroX = width / 2;
 let heroY = height / 2 + 150;
 
+const ghostSize = width / 10;
+const ghostSpeed = width / 70;
+
 const bulletSize = width / 30;
 const bulletSpeed = width / 25;
 
@@ -56,6 +59,17 @@ class Bullet extends Character{
         super(heroX, heroY, bulletSize, angle, bulletSpeed)
         this.element.style.backgroundColor = "#ff0";
         this.element.style.borderRadius = "50%";
+    }
+}
+
+class Ghost extends Character{
+    constructor(x, y, angle, speed){
+        super(x, y, ghostSize, angle, speed)
+        this.element.style.display = "flex";
+        this.element.style.alignItems = "center";
+        this.element.style.justifyContent = "center";
+        this.element.style.fontSize = `${ghostSize}px`;
+        this.element.textContent = "👻";
     }
 }
 
@@ -121,6 +135,9 @@ window.onload = async () => {
     
     let bulletList = [];
     let bulletInterval = 0;
+    let ghostList = [];
+    let ghostInterval = 0;
+
     while (true){
         await new Promise(r => setTimeout(r, 16));
         if (bulletInterval === 0) {
@@ -129,11 +146,26 @@ window.onload = async () => {
             bulletList.push(new Bullet(-60 * Math.PI / 180));
             bulletList.push(new Bullet(-120 * Math.PI / 180));
         }
-
         bulletInterval --;
+
+        if (ghostInterval === 0){
+            ghostInterval = 40;
+            const gx = Math.random() * width;
+            const gy = 0;
+            const angle = Math.atan2(heroY - gy, heroX - gx);
+            const speed = ghostSpeed;
+            ghostList.push(new Ghost(gx, gy, angle, speed));
+        }
+        ghostInterval --;
+
         for (let bullet of bulletList){
             bullet.update();
         }
+
+        for (let ghost of ghostList){
+            ghost.update();
+        }
+
         bulletList = bulletList.filter((v) => v.isAvailable());
     }
 };
