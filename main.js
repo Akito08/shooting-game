@@ -21,6 +21,7 @@ class Character {
         this.size = size;
         this.angle = angle;
         this.speed = speed;
+        this.available = true;
         const element = document.createElement("div");
         container.appendChild(element);
         element.style.position = "absolute";
@@ -37,10 +38,14 @@ class Character {
       }
 
     remove(){
+        this.available = false;
         this.element.remove();
     }
 
     isAvailable() {
+        if (!this.isAvailable){
+            return false;
+        }
         if (
           this.x < -this.size ||
           this.x > width + this.size ||
@@ -167,5 +172,18 @@ window.onload = async () => {
         }
 
         bulletList = bulletList.filter((v) => v.isAvailable());
+        ghostList = ghostList.filter((v) => v.isAvailable());
+
+        for (let bullet of bulletList){
+            for (let ghost of ghostList){
+                const dx = ghost.x - bullet.x;
+                const dy = ghost.y - bullet.y;
+                const diff = (bulletSize + ghostSize) / 2 * 0.8;
+                if (dx ** 2 + dy ** 2 < diff ** 2){
+                    ghost.remove();
+                    bullet.remove();
+                }
+            }
+        }
     }
 };
