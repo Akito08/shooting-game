@@ -2,6 +2,7 @@ const width = 350;
 const height = 560;
 
 let container = null;
+let message = null;
 
 let heroElement = null;
 const heroSize = width / 12;
@@ -15,6 +16,8 @@ const bulletSize = width / 30;
 const bulletSpeed = width / 25;
 
  let gameOver = false;
+ let score = 0;
+ let scoreElement = null;
 
 class Character {
     constructor(x, y, size, angle, speed) {
@@ -83,6 +86,7 @@ class Ghost extends Character{
     hit(){
         this.power--;
         if (this.power <= 0){
+            score++; 
             this.remove();
         }
     }
@@ -95,13 +99,18 @@ const update = () => {
 
 const init = () => {
     container = document.createElement("div");
-    container.style.position = "absolute";
+    container.style.position = "relative";
     container.style.width = `${width}px`;
     container.style.height = `${height}px`;
     container.style.overflow = "hidden"
     container.style.backgroundColor = "#202";
     document.body.appendChild(container);
-    
+
+    scoreElement = document.createElement("div");
+    scoreElement.style.fontFamily = "fantasy";
+    scoreElement.style.fontSize = `${heroSize}px`;
+    document.body.appendChild(scoreElement);
+
     heroElement = document.createElement("div");
     heroElement.style.position = "absolute";
     heroElement.style.display = "flex";
@@ -157,6 +166,8 @@ window.onload = async () => {
     let ghostInterval = 0;
 
     while (true){
+        scoreElement.textContent = `${score}匹`;
+
         await new Promise(r => setTimeout(r, 16));
         if (bulletInterval === 0) {
             bulletInterval = 6;
