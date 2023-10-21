@@ -80,7 +80,7 @@ class Ghost extends Character{
         this.element.style.alignItems = "center";
         this.element.style.justifyContent = "center";
         this.element.style.fontSize = `${ghostSize}px`;
-        this.element.textContent = "👻";
+        this.element.textContent = Math.random() > 0.5 ? "👻":"☠️";
     }
 
     hit(){
