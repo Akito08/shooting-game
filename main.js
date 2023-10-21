@@ -14,6 +14,8 @@ const ghostSpeed = width / 70;
 const bulletSize = width / 30;
 const bulletSpeed = width / 25;
 
+ let gameOver = false;
+
 class Character {
     constructor(x, y, size, angle, speed) {
         this.x = x;
@@ -118,6 +120,9 @@ const init = () => {
         };
         document.onpointermove = (e) => {
             e.preventDefault();
+            if (gameOver){
+                return;
+            }
             if (originalX !== -1){
                 const dx = e.pageX - originalX;
                 const dy = e.pageY - originalY;
@@ -146,7 +151,7 @@ window.onload = async () => {
     while (true){
         await new Promise(r => setTimeout(r, 16));
         if (bulletInterval === 0) {
-            bulletInterval = 5;
+            bulletInterval = 6;
             bulletList.push(new Bullet(-90 * Math.PI / 180));
             bulletList.push(new Bullet(-60 * Math.PI / 180));
             bulletList.push(new Bullet(-120 * Math.PI / 180));
@@ -174,8 +179,19 @@ window.onload = async () => {
         bulletList = bulletList.filter((v) => v.isAvailable());
         ghostList = ghostList.filter((v) => v.isAvailable());
 
-        for (let bullet of bulletList){
-            for (let ghost of ghostList){
+        for (let ghost of ghostList){
+            if (!ghost.available){
+                continue;
+            }
+            const dx = ghost.x - heroX;
+            const dy = ghost.y - heroY;
+            const diff = (ghostSize + heroSize) / 2 * 0.6;
+            if (dx ** 2 + dy ** 2 < diff ** 2){
+                gameOver = true;
+                return;
+            }
+
+            for (let bullet of bulletList){
                 const dx = ghost.x - bullet.x;
                 const dy = ghost.y - bullet.y;
                 const diff = (bulletSize + ghostSize) / 2 * 0.8;
