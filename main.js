@@ -79,8 +79,16 @@ class Ghost extends Character{
         this.element.style.display = "flex";
         this.element.style.alignItems = "center";
         this.element.style.justifyContent = "center";
+        this.element.style.transition = "opacity 300ms ease-out"
         this.element.style.fontSize = `${ghostSize}px`;
         this.element.textContent = Math.random() > 0.5 ? "👻":"☠️";
+    }
+
+    async remove(){
+        this.available = false;
+        this.element.style.opacity = 0;
+        await new Promise((r) => setTimeout(r, 300));
+        super.remove();
     }
 
     hit(){
@@ -88,6 +96,17 @@ class Ghost extends Character{
         if (this.power <= 0){
             score++; 
             this.remove();
+        } else {
+            this.element.style.filter = "brightness(100)";
+            this.brightenCount = 3; 
+        }
+    }
+    update(){
+        super.update();
+        if (this.brightenCount){
+            this.brightenCount--;
+        } else {
+            this.element.style.filter = "";
         }
     }
 }
