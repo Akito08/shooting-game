@@ -154,7 +154,7 @@ window.onload = async () => {
         bulletInterval --;
 
         if (ghostInterval === 0){
-            ghostInterval = 40;
+            ghostInterval = 10;
             const gx = Math.random() * width;
             const gy = 0;
             const angle = Math.atan2(heroY - gy, heroX - gx);
